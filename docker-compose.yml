@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+
+  devcontainer:
+    image: debian:bookworm-slim
+    entrypoint: '/bin/sleep 99999999'
+    environment:
+      MARIADB_HOST: db
+      MARIADB_USER: ${CONFIG_MARIADB_USER}
+      MARIADB_PASSWORD: ${CONFIG_MARIADB_PASSWORD}
+      MARIADB_DATABASE: ${CONFIG_MARIADB_DATABASE}
+    volumes:
+      - .:/workspace
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${CONFIG_MARIADB_ROOT_PASSWORD}
+      MARIADB_USER: ${CONFIG_MARIADB_USER}
+      MARIADB_PASSWORD: ${CONFIG_MARIADB_PASSWORD}
+      MARIADB_DATABASE: ${CONFIG_MARIADB_DATABASE}
